@@ -10,20 +10,36 @@ require(dplyr, quietly = TRUE)
 ```
 
 
+1-Series com personagens principais femininos possuem avaliação melhor do que séries com personagens principais masculinos?
+Eu acredito que sim
+
+
+Observando primeiro o nome de todas as séries disponiveis para escolher um conjunto de cada
 ```{r}
 ggplot(data=series,
        aes(y=series_name, x=season)) +
        geom_line()
 ```
 
-
+Algumas séries com personagens principais masculinos
 ```{r}
-series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad"))
+series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikings",                                           "Narcos","Gotham"))
 
 ```
 
-1-Series com personagens principais femininos possuem avaliação melhor do que séries com personagens principais masculinos?
-Eu acredito que sim
+
+Agora, algumas séries com personagens principais femininos
+```{r}
+series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "The 100", "Grey's Anatomy"))
+```
+
+
+
+
+
+
+
+
 5-Se eu criasse uma temporada de 10 episodios com o episodio mais bem avaliado de cada indice entre todas as series e temporadas, quais series estariam presentes nessa temporada dos sonhos?
 Exemplo: um conjunto de episodios composto pelo primeiro episodio mais bem avaliado seguido do segundo episodio mais bem avaliado ... e assim por diante.
 Pelo menos breaking bad,game of thrones
