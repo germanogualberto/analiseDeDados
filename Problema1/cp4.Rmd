@@ -30,7 +30,7 @@ masculino=series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikin
 
 Agora, algumas séries com personagens principais femininos
 ```{r}
-feminino=series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder", "Grey's/ Anatomy"))
+feminino=series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder", "Grey/'s Anatomy"))
 ```
 
 Olhando rapidamente para as medias 10 das séries masculinas
@@ -56,6 +56,13 @@ ggplot(feminino, aes(x = series_ep, y = r10 )) +
   geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
 ```
 Curiosamente, ambos possuem metade das observações de r10 concentrados abaixo de 0.4. Nenhuma novidade, já que isso quer dizer apenas que é dificil fazer um episodio nota 10.
+
+Já pelo outro lado, ambos possuem a segunda metade muito dispersa. Aparentemente não há relação entre a proporção de nota 10 e se o personagem é masculino ou feminino para os dados que eu selecionei.
+
+
+```{r}
+
+```
 
 5-Se eu criasse uma temporada de 10 episodios com o episodio mais bem avaliado de cada indice entre todas as series e temporadas, quais series estariam presentes nessa temporada dos sonhos?
 Exemplo: um conjunto de episodios composto pelo primeiro episodio mais bem avaliado seguido do segundo episodio mais bem avaliado ... e assim por diante.
