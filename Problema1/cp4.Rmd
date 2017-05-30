@@ -23,22 +23,39 @@ ggplot(data=series,
 
 Algumas séries com personagens principais masculinos
 ```{r}
-series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikings",                                           "Narcos","Gotham"))
+masculino=series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikings",                                           "Gotham"))
 
 ```
 
 
 Agora, algumas séries com personagens principais femininos
 ```{r}
-series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "The 100", "Grey's Anatomy"))
+feminino=series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder", "Grey's/ Anatomy"))
 ```
 
+Olhando rapidamente para as medias 10 das séries masculinas
+```{r}
+mean(masculino$r10)
+```
+Olhando rapidamente para as médias 10 das séries femininas
+```{r}
+mean(feminino$r10)
+```
+Mas como média é bastante influenciada por valores extremos, vamos observar um boxplot dos dados.
 
+```{r}
+ggplot(masculino, aes(x = series_ep, y = r10 )) + 
+  geom_boxplot() +
+  geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
 
+```
 
-
-
-
+```{r}
+ggplot(feminino, aes(x = series_ep, y = r10 )) + 
+  geom_boxplot() +
+  geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
+```
+Curiosamente, ambos possuem metade das observações de r10 concentrados abaixo de 0.4. Nenhuma novidade, já que isso quer dizer apenas que é dificil fazer um episodio nota 10.
 
 5-Se eu criasse uma temporada de 10 episodios com o episodio mais bem avaliado de cada indice entre todas as series e temporadas, quais series estariam presentes nessa temporada dos sonhos?
 Exemplo: um conjunto de episodios composto pelo primeiro episodio mais bem avaliado seguido do segundo episodio mais bem avaliado ... e assim por diante.
