@@ -1,0 +1,44 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+require(ggplot2, quietly = TRUE)
+require(GGally, quietly = TRUE)
+require(reshape2, quietly = TRUE)
+require(dplyr, quietly = TRUE)
+```
+
+Algumas séries com personagens principais masculinos
+```{r}
+masculino=series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikings",                                           "Gotham"))
+
+```
+
+Agora, algumas séries com personagens principais femininos
+```{r}
+feminino=series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder", "Grey/'s Anatomy"))
+```
+
+Mas como média é bastante influenciada por valores extremos, vamos observar um boxplot dos dados.
+
+```{r}
+ggplot(masculino, aes(x = series_ep, y = r10 )) + 
+  geom_boxplot() +
+  geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
+
+```
+
+
+```{r}
+ggplot(feminino, aes(x = series_ep, y = r10 )) + 
+  geom_boxplot() +
+  geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
+```
+
+
+Curiosamente, ambos possuem metade das observações de r10 concentrados abaixo de 0.4. Nenhuma novidade, já que isso quer dizer apenas que é dificil fazer um episodio nota 10.
+
+Já pelo outro lado, ambos possuem a segunda metade muito dispersa. Aparentemente não há relação significativa entre a proporção de nota 10 e se o personagem é masculino ou feminino para os dados que eu selecionei.

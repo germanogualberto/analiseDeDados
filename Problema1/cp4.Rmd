@@ -1,6 +1,8 @@
 ---
 title: "Problema1 CP4"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
 ```{r}
 require(ggplot2, quietly = TRUE)
@@ -8,7 +10,10 @@ require(GGally, quietly = TRUE)
 require(reshape2, quietly = TRUE)
 require(dplyr, quietly = TRUE)
 ```
-
+Os dados são informações cadastradas sobre séries de televisão cadastradas no imdb.
+As principais variáveis usadas aqui:
+-O nome da série (Variavel nominal)
+-A taxa de nota 10 que a serie recebeu em seus episodios, que pode variar de 0% a 100%.
 
 1-Series com personagens principais femininos possuem avaliação melhor do que séries com personagens principais masculinos?
 Eu acredito que sim
@@ -57,13 +62,15 @@ ggplot(feminino, aes(x = series_ep, y = r10 )) +
 ```
 Curiosamente, ambos possuem metade das observações de r10 concentrados abaixo de 0.4. Nenhuma novidade, já que isso quer dizer apenas que é dificil fazer um episodio nota 10.
 
-Já pelo outro lado, ambos possuem a segunda metade muito dispersa. Aparentemente não há relação entre a proporção de nota 10 e se o personagem é masculino ou feminino para os dados que eu selecionei.
+Já pelo outro lado, ambos possuem a segunda metade muito dispersa. Aparentemente não há relação significativa entre a proporção de nota 10 e se o personagem é masculino ou feminino para os dados que eu selecionei.
 
+Mas já que não  há relação nesse caso, será que há relação entre a quantidade de votos e o genero do personagem principal?
 
-```{r}
-
-```
 
 5-Se eu criasse uma temporada de 10 episodios com o episodio mais bem avaliado de cada indice entre todas as series e temporadas, quais series estariam presentes nessa temporada dos sonhos?
 Exemplo: um conjunto de episodios composto pelo primeiro episodio mais bem avaliado seguido do segundo episodio mais bem avaliado ... e assim por diante.
 Pelo menos breaking bad,game of thrones
+
+```{r}
+```
+
