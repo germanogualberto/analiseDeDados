@@ -11,31 +11,44 @@ require(reshape2, quietly = TRUE)
 require(dplyr, quietly = TRUE)
 ```
 
+TODO: AUMENTAR A QUANTIDADE DE SERIES MASCULINAS
 Algumas séries com personagens principais masculinos
 ```{r}
-masculino=series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikings",                                           "Gotham"))
+masculino=series %>% filter(series_name %in% c("Mr Robot", "Breaking Bad","Vikings", "Gotham"))
+sexo="M"
+sexo=data.frame(sexo)
+masculino=merge(masculino,sexo)
 
 ```
 
+TODO: AUMENTAR A QUANTIDADE DE SERIES FEMININAS
 Agora, algumas séries com personagens principais femininos
 ```{r}
-feminino=series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder", "Grey/'s Anatomy"))
+feminino=series %>% filter(series_name %in% c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder"))
+sexo="F"
+sexo=data.frame(sexo)
+feminino=merge(feminino,sexo)
+
 ```
+
+
+
+```{r}
+series_usadas=rbind(masculino,feminino)
+```
+
+
+
+
+
 
 Mas como média é bastante influenciada por valores extremos, vamos observar um boxplot dos dados.
 
 ```{r}
-ggplot(masculino, aes(x = series_ep, y = r10 )) + 
+ggplot(series_usadas, aes(x = sexo, y = UserRating )) + 
   geom_boxplot() +
   geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
 
-```
-
-
-```{r}
-ggplot(feminino, aes(x = series_ep, y = r10 )) + 
-  geom_boxplot() +
-  geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
 ```
 
 
