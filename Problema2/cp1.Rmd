@@ -2,7 +2,13 @@
 title: "R Notebook"
 output: html_notebook
 ---
+Series com personagens principais femininos possuem avaliaÁ„oo melhor do que sÈries com personagens principais masculinos?
 
+
+Os dados s„o informaÁıes cadastradas sobre sÈries de televis„o no imdb.
+As principais vari·veis usadas aqui:
+-O nome da sÈrie (Variavel nominal)
+-A avaliaÁ„o(nota) geral que a serie recebeu em seus episodios, que pode variar de 0 a 10.
 
 ```{r}
 require(ggplot2, quietly = TRUE)
@@ -16,52 +22,52 @@ library(plotly)
 
 ```
 
-TODO: AUMENTAR A QUANTIDADE DE SERIES MASCULINAS
-Algumas s√©ries com personagens principais masculinos
+
+
 ```{r}
 masculino=series %>% filter(series_name %in% 
-c("Mr Robot", "Breaking Bad","Vikings", "Gotham"))
+c("Vikings", "Supernatural", "Mr Robot", "Flash",
+  "Arrow","Breaking Bad","Prison Break", "How I Met Your Mother",
+  "Daredevil","House of Cards"))
 sexo="M"
 sexo=data.frame(sexo)
 masculino=merge(masculino,sexo)
+
+
+
 ```
 
-TODO: AUMENTAR A QUANTIDADE DE SERIES FEMININAS
-Agora, algumas s√©ries com personagens principais femininos
+
+
 ```{r}
 feminino=series %>% filter(series_name %in% 
-c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder"))
+c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder",
+  "Gilmore Girls","Xena a Princesa Guerreira","Scandal","Bones",
+  "The Killing","Homeland", "Jane The Virgin"))
 sexo="F"
 sexo=data.frame(sexo)
 feminino=merge(feminino,sexo)
 ```
 
+
 ```{r}
 series_usadas=rbind(masculino,feminino)
 ```
 
-Mas como m√©dia √© bastante influenciada por valores extremos, vamos observar um boxplot dos dados.
-TODO: ESCONDER USERRATING NO PLOT
+A vizualizaÁ„o a seguir, apresenta v·rios boxplots dos dados. Para comparar diferentes cen·rios, basta selecionar quais dados deseja enxergar.
 
 ```{r}
-ggplot(series_usadas, aes(x = sexo, y = UserRating )) + 
-  geom_boxplot() +
-  geom_jitter(color = "orange", width = .1, height = 0, alpha = .6)
-
-```
-
-
-```{r}
+Nota=series_usadas$UserRating
 plot_ly(data = series_usadas, 
         x = ~ sexo, 
-        y = ~ UserRating, 
+        y = Nota, 
         type="box",
         boxpoints = "all",
         jitter = 0.3,
         pointpos = 0,
         color = ~as.character(series_name), 
         text = ~series_name) %>% 
-  add_boxplot(y = ~ UserRating, 
+  add_boxplot(y = ~Nota, 
             type = "scatter",
             mode = "lines+markers",
             color = ~as.character(sexo),
@@ -71,6 +77,4 @@ plot_ly(data = series_usadas,
 
 
 
-Curiosamente, ambos possuem metade das observa√ß√µes de r10 concentrados abaixo de 0.4. Nenhuma novidade, j√° que isso quer dizer apenas que √© dificil fazer um episodio nota 10.
-
-J√° pelo outro lado, ambos possuem a segunda metade muito dispersa. Aparentemente n√£o h√° rela√ß√£o significativa entre a propor√ß√£o de nota 10 e se o personagem √© masculino ou feminino para os dados que eu selecionei.
+Curiosamente, se selecionarmos para observarmos apenas F e M, notamos que 75% dos episodios de sÈries com protagonistas femininos est„o abaixo de menos de 50% dos episodios de sÈries com protagonistas masculinos.
