@@ -12,16 +12,13 @@ As principais variáveis usadas aqui:
 -O nome da série (Variavel nominal)
 -A avaliação(nota) geral que a serie recebeu em seus episodios, que pode variar de 0 a 10.
 
-```{r echo=FALSE}
+```{r , echo=FALSE,results='hide',fig.keep='all'}
 require(ggplot2, quietly = TRUE)
-require(GGally, quietly = TRUE)
-require(reshape2, quietly = TRUE)
 require(dplyr, quietly = TRUE)
-library(htmlwidgets)
-library(dygraphs)
-library(tidyverse)
 library(plotly)
+library(readr)
 
+series <- read_csv("~/Pessoal Temporario/Repositorios/analiseDeDados/data/imdb_data_series.csv")
 ```
 
 
@@ -34,8 +31,6 @@ c("Vikings", "Supernatural", "Mr Robot", "Flash",
 sexo="M"
 sexo=data.frame(sexo)
 masculino=merge(masculino,sexo)
-
-
 
 ```
 
@@ -59,7 +54,7 @@ series_usadas=rbind(masculino,feminino)
 A vizualização a seguir, apresenta vários boxplots dos dados. Para comparar diferentes cenários, basta selecionar quais dados deseja enxergar.
 
 ```{r , echo=FALSE,results='hide',fig.keep='all'}
-Nota=series_usadas$UserRating
+
 plot_ly(data = series_usadas, 
         x = ~ sexo, 
         y = Nota, 
@@ -67,13 +62,20 @@ plot_ly(data = series_usadas,
         boxpoints = "all",
         jitter = 0.3,
         pointpos = 0,
-        color = ~as.character(series_name)) %>% 
-  add_boxplot(y = ~Nota, 
+        width = 850, height = 450,
+        color = ~series_name) %>% 
+  add_boxplot(y = ~UserRating, 
             type = "scatter",
-            color = ~as.character(sexo))
+            color = ~as.character(sexo))%>%
+
+layout(title="Comparação das avaliações dos episódios" ,
+       xaxis = list(title="Genero Protagonista" ,titlefont="Genero Protagonista" ),
+       yaxis = list(title="Nota" ,titlefont="Nota" ))
+
 
 ```
 
 
 
-Curiosamente, se selecionarmos para observarmos apenas F e M, notamos que 75% dos episodios de séries com protagonistas femininos estão abaixo de menos de 50% dos episodios de séries com protagonistas masculinos para.
+Curiosamente, se selecionarmos para observarmos apenas F e M, notamos que 75% dos episodios de séries com protagonistas femininos estão abaixo de menos de 50% dos episodios de séries com protagonistas masculinos.
+Mas existem algumas séries, como "How to get Away with Murder" que possui desempenho similar a todas as masculinas.
