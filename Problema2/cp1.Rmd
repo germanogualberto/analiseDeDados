@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
 Series com personagens principais femininos possuem avaliaçãoo melhor do que séries com personagens principais masculinos?
 
@@ -10,7 +12,7 @@ As principais variáveis usadas aqui:
 -O nome da série (Variavel nominal)
 -A avaliação(nota) geral que a serie recebeu em seus episodios, que pode variar de 0 a 10.
 
-```{r}
+```{r echo=FALSE}
 require(ggplot2, quietly = TRUE)
 require(GGally, quietly = TRUE)
 require(reshape2, quietly = TRUE)
@@ -24,7 +26,7 @@ library(plotly)
 
 
 
-```{r}
+```{r echo=FALSE}
 masculino=series %>% filter(series_name %in% 
 c("Vikings", "Supernatural", "Mr Robot", "Flash",
   "Arrow","Breaking Bad","Prison Break", "How I Met Your Mother",
@@ -39,7 +41,7 @@ masculino=merge(masculino,sexo)
 
 
 
-```{r}
+```{r echo=FALSE}
 feminino=series %>% filter(series_name %in% 
 c("13 Reasons Why", "Orphan Black", "How to Get Away with Murder",
   "Gilmore Girls","Xena a Princesa Guerreira","Scandal","Bones",
@@ -50,13 +52,13 @@ feminino=merge(feminino,sexo)
 ```
 
 
-```{r}
+```{r echo=FALSE}
 series_usadas=rbind(masculino,feminino)
 ```
 
 A vizualização a seguir, apresenta vários boxplots dos dados. Para comparar diferentes cenários, basta selecionar quais dados deseja enxergar.
 
-```{r}
+```{r , echo=FALSE,results='hide',fig.keep='all'}
 Nota=series_usadas$UserRating
 plot_ly(data = series_usadas, 
         x = ~ sexo, 
@@ -65,16 +67,13 @@ plot_ly(data = series_usadas,
         boxpoints = "all",
         jitter = 0.3,
         pointpos = 0,
-        color = ~as.character(series_name), 
-        text = ~series_name) %>% 
+        color = ~as.character(series_name)) %>% 
   add_boxplot(y = ~Nota, 
             type = "scatter",
-            mode = "lines+markers",
-            color = ~as.character(sexo),
-            hoverinfo = "text")
+            color = ~as.character(sexo))
 
 ```
 
 
 
-Curiosamente, se selecionarmos para observarmos apenas F e M, notamos que 75% dos episodios de séries com protagonistas femininos estão abaixo de menos de 50% dos episodios de séries com protagonistas masculinos.
+Curiosamente, se selecionarmos para observarmos apenas F e M, notamos que 75% dos episodios de séries com protagonistas femininos estão abaixo de menos de 50% dos episodios de séries com protagonistas masculinos para.
