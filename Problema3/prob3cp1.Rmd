@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse, warn.conflicts = F)
+library(rvest)
+library(plotly)
+library(cluster)
+library(ggdendro)
+theme_set(theme_light())
+source("plota_solucoes_hclust.R")
+```
+
+
+
+
+
+
+
+```{r}
+from_page <- read_html("https://www.rottentomatoes.com/celebrity/will_smith/") %>% 
+    html_node("#filmographyTbl") %>% # A sintaxe da expressão é de um seletor à lá JQuery: https://rdrr.io/cran/rvest/man/html_nodes.html 
+    html_table(fill=TRUE) %>% # Faz parse
+    as.tibble()
+
+filmes = from_page %>% 
+    filter(RATING != "No Score Yet", 
+           `BOX OFFICE` != "—", 
+           CREDIT != "Executive Producer") %>%
+    mutate(RATING = as.numeric(gsub("%", "", RATING)), 
+           `BOX OFFICE` = as.numeric(gsub("[$|M]", "", `BOX OFFICE`))) %>% 
+    filter(`BOX OFFICE` >= 1) # Tem dois filmes que não parecem ter sido lançados no mundo todo
+```
+
+
+
+```{r}
+p = filmes %>% 
+    ggplot(aes(x = RATING, y = `BOX OFFICE`, label = TITLE)) + 
+    geom_point() 
+p
+```
+
+```{r}
+agrupamento_h_2d = filmes %>% 
+    column_to_rownames("TITLE") %>%
+    select(RATING, `BOX OFFICE`) %>% 
+    mutate(`BOX OFFICE` = log10(`BOX OFFICE`)) %>% 
+    mutate_all(funs(scale)) %>% 
+    dist(method = "euclidean") %>% 
+    hclust(method = "centroid")
+
+ggdendrogram(agrupamento_h_2d, rotate = TRUE)
+
+filmes2 = filmes %>% mutate(`BOX OFFICE` = log10(`BOX OFFICE`))
+plota_hclusts_2d(agrupamento_h_2d, 
+                 filmes2, 
+                 c("RATING", "`BOX OFFICE`"), 
+                 linkage_method = "ward.D", ks = 4) + scale_y_log10()
+```
+
