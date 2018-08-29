@@ -5,6 +5,9 @@ output: html_document
 
 ```{r}
 library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
 ```
 
 Algum texto legal aqui

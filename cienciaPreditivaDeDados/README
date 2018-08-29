@@ -2,5 +2,6 @@
 readr
 dplyr
 ggplot2
+knitr
 
 ------LEMBRAR DE DESCOMPACTAR OS ARQUIVOS EM DATA/
