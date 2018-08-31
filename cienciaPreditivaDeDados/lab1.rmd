@@ -13,14 +13,12 @@ library(knitr)
 Algum texto legal aqui
 
 ```{r}
-dadosCEAP <- read_csv("~/Documentos/analiseDeDados/cienciaPreditivaDeDados/data/dadosCEAP.csv")
+dadosCEAP <- read_csv("data/dadosCEAP.csv")
 View(dadosCEAP)
 ```
-
-Outro texto legal aqui
-
-
 1-Quais são os deputados que gastaram mais dinheiro da CEAP? Quais são os mais econômicos? (7,5 pts)
+
+
 
 2-Quais os estados cujos deputados gastam mais no exterior? Quais os estados cujos deputados gastam menos no exterior? (7,5 pts)
 3-Quais os partidos cujos parlamentares mais usam CEAP no estado da Paraíba? Quais são os que menos usam? Mesmas perguntas considerando valores em R$. (7,5 pts)
