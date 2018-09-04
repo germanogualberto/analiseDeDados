@@ -15,13 +15,48 @@ Algum texto legal aqui
 ```{r}
 dadosCEAP <- read_csv("data/dadosCEAP.csv")
 View(dadosCEAP)
+
+limiteMensalCEAP <- read_csv("data/limiteMensalCEAP.csv")
+View(limiteMensalCEAP)
 ```
-1-Quais sÃ£o os deputados que gastaram mais dinheiro da CEAP? Quais sÃ£o os mais econÃ´micos? (7,5 pts)
 
 
+```{r}
+dadosCEAP$valorGlosa <- as.numeric(sub(",", ".", dadosCEAP$valorGlosa, fixed = TRUE)) 
+```
 
-2-Quais os estados cujos deputados gastam mais no exterior? Quais os estados cujos deputados gastam menos no exterior? (7,5 pts)
-3-Quais os partidos cujos parlamentares mais usam CEAP no estado da ParaÃ­ba? Quais sÃ£o os que menos usam? Mesmas perguntas considerando valores em R$. (7,5 pts)
-4-Quais os deputados que mais ultrapassam o limite de CEAP do seu estado? Os dados com os limites de CEAP por estado estÃ£o disponÃ­veis neste link. (7,5 pts)
-5-Quais estados cujos parlamentares gastam mais com passagens aÃ©reas? (7,5 pts)
-6-Escolha trÃªs partidos e responda: Quais sÃ£o os tipos de despesa mais utilizados no uso da CEAP pelos deputados desses partidos? Mesma pergunta considerando valores em R$. (7,5 pts)
+1 - Quais são os deputados que gastaram mais dinheiro da CEAP? Quais são os mais econômicos? 
+
+```{r}
+
+```
+
+
+2 - Quais os estados cujos deputados gastam mais no exterior? Quais os estados cujos deputados gastam menos no exterior? 
+
+```{r}
+
+```
+
+3 - Quais os partidos cujos parlamentares mais usam CEAP no estado da Paraíba? Quais são os que menos usam? Mesmas perguntas considerando valores em R$.
+
+```{r}
+
+```
+
+4 - Quais os deputados que mais ultrapassam o limite de CEAP do seu estado? 
+
+```{r}
+
+```
+
+5 - Quais estados cujos parlamentares gastam mais com passagens aéreas?
+```{r}
+
+```
+
+6 - Escolha três partidos e responda: Quais são os tipos de despesa mais utilizados no uso da CEAP pelos deputados desses partidos? Mesma pergunta considerando valores em R$.
+```{r}
+
+```
+
