@@ -147,8 +147,38 @@ menosGastos %>%
 
 5 - Quais estados cujos parlamentares gastam mais com passagens aéreas?
 ```{r}
+gastos5 = dadosCEAP %>% select(sgUF,valorLíquido,tipoDespesa)%>%
+  filter(tipoDespesa=="Emissão Bilhete Aéreo")%>%
+  group_by(sgUF)%>%
+  summarise(gastosTotal = sum(valorLíquido))
 
+maisGastos = gastos5 %>% top_n(10)
+maisGastos$sgUF = factor(maisGastos$sgUF, levels = maisGastos$sgUF[order(maisGastos$sgUF)])
+
+maisGastos %>% 
+  ggplot(aes(x=sgUF,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Estados que mais gastam com Passagens aereas",y="Valor",x="Estado ")+
+  
+  coord_flip()
+
+#"Emissão Bilhete Aéreo"
 ```
+
+```{r}
+menosGastos = gastos5 %>% top_n(-10)
+menosGastos$sgUF = factor(menosGastos$sgUF, levels = menosGastos$sgUF[order(menosGastos$sgUF)])
+
+menosGastos %>% 
+  ggplot(aes(x=sgUF,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Estados que menos gastam com Passagens aereas",y="Valor",x="Estado ")+
+  
+  coord_flip()
+```
+
 
 6 - Escolha três partidos e responda: Quais são os tipos de despesa mais utilizados no uso da CEAP pelos deputados desses partidos? Mesma pergunta considerando valores em R$.
 ```{r}
