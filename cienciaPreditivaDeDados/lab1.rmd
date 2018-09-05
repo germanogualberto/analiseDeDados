@@ -111,8 +111,32 @@ gastos3 = dadosCEAP %>% select(sgPartido, sgUF ,valorLíquido ) %>%
   group_by(sgPartido)%>%
   summarise( gastosTotal = sum(valorLíquido))
 
+maisGastos = gastos3 %>% top_n(5)
+maisGastos$sgPartido = factor(maisGastos$sgPartido, levels = maisGastos$sgPartido[order(maisGastos$sgPartido)])
+
+maisGastos %>% 
+  ggplot(aes(x=sgPartido,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Partidos que mais gastam da Paraiba",y="Valor",x="Partido ")+
+  
+  coord_flip()
   
 ```
+
+```{r}
+menosGastos = gastos3 %>% top_n(-5)
+menosGastos$sgPartido = factor(menosGastos$sgPartido, levels = menosGastos$sgPartido[order(menosGastos$sgPartido)])
+
+menosGastos %>% 
+  ggplot(aes(x=sgPartido,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Partidos que menos gastam da Paraiba",y="Valor",x="Partido")+
+  
+  coord_flip()
+```
+
 
 4 - Quais os deputados que mais ultrapassam o limite de CEAP do seu estado? 
 
