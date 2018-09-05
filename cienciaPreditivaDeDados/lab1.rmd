@@ -88,6 +88,20 @@ maisGastos %>%
   coord_flip()
 
 ```
+```{r}
+menosGastos = gastos2 %>% top_n(-10)
+menosGastos$sgUF = factor(menosGastos$sgUF, levels = menosGastos$sgUF[order(menosGastos$sgUF)])
+
+menosGastos %>% 
+  ggplot(aes(x=sgUF,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Deputados que menos gastaram no exterior",y="Valor",x="Estado do Deputado")+
+  
+  coord_flip()
+```
+
+
 
 3 - Quais os partidos cujos parlamentares mais usam CEAP no estado da Paraíba? Quais são os que menos usam? Mesmas perguntas considerando valores em R$.
 
