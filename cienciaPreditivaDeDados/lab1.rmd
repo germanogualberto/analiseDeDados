@@ -51,7 +51,7 @@ maisGastos %>%
 
 ```
 ```{r}
-maisGastos = gastos %>% top_n(-10)
+menosGastos = gastos %>% top_n(-10)
 #
 menosGastos$nomeParlamentar = factor(menosGastos$nomeParlamentar, levels = menosGastos$nomeParlamentar[order(menosGastos$nomeParlamentar)])
 #menosGastos = gastos %>% top_n(-10)
@@ -70,18 +70,40 @@ menosGastos %>%
 2 - Quais os estados cujos deputados gastam mais no exterior? Quais os estados cujos deputados gastam menos no exterior? 
 
 ```{r}
+#como saber se o gasto foi no exterior? tipoDocumento==2
+gastos2 = dadosCEAP %>% select (sgUF,valorLíquido,tipoDocumento)%>%
+  filter(tipoDocumento==2)%>%
+  group_by(sgUF)%>%
+  summarise( gastosTotal = sum (valorLíquido))
+
+maisGastos = gastos2 %>% top_n(10)
+maisGastos$sgUF = factor(maisGastos$sgUF, levels = maisGastos$sgUF[order(maisGastos$sgUF)])
+
+maisGastos %>% 
+  ggplot(aes(x=sgUF,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Deputados que mais gastaram no exterior",y="Valor",x="Estado do Deputado")+
+  
+  coord_flip()
 
 ```
 
 3 - Quais os partidos cujos parlamentares mais usam CEAP no estado da Paraíba? Quais são os que menos usam? Mesmas perguntas considerando valores em R$.
 
 ```{r}
+gastos3 = dadosCEAP %>% select(sgPartido, sgUF ,valorLíquido ) %>%
+  filter(sgUF=='PB')%>%
+  group_by(sgPartido)%>%
+  summarise( gastosTotal = sum(valorLíquido))
 
+  
 ```
 
 4 - Quais os deputados que mais ultrapassam o limite de CEAP do seu estado? 
 
 ```{r}
+
 
 ```
 
