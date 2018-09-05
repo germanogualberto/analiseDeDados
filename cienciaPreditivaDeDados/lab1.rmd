@@ -141,8 +141,25 @@ menosGastos %>%
 4 - Quais os deputados que mais ultrapassam o limite de CEAP do seu estado? 
 
 ```{r}
+gastos4 = dadosCEAP %>% select(nomeParlamentar,valorLíquido,sgUF)%>%
+  group_by(nomeParlamentar,sgUF)%>%
+  summarise( gastosTotal = sum(valorLíquido))
 
 
+gastos4n = gastos4 %>% select (nomeParlamentar, sgUF,gastosTotal)%>%
+  filter(sgUF==limiteMensalCEAP$UF && gastosTotal>limiteMensalCEAP$limite_mensal) %>%
+  group_by(nomeParlamentar)%>%
+  summarise(gastosTotal)
+
+gastos4n$nomeParlamentar = factor(gastos4n$nomeParlamentar, levels = gastos4n$nomeParlamentar[order(gastos4n$nomeParlamentar)])
+
+gastos4n %>% 
+  ggplot(aes(x=nomeParlamentar,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Depultados que mais ultrapassam o limite CEAP",y="Valor",x="Deputado")+
+  
+  coord_flip()
 ```
 
 5 - Quais estados cujos parlamentares gastam mais com passagens aéreas?
