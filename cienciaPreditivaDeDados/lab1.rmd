@@ -25,10 +25,45 @@ View(limiteMensalCEAP)
 dadosCEAP$valorGlosa <- as.numeric(sub(",", ".", dadosCEAP$valorGlosa, fixed = TRUE)) 
 ```
 
-1 - Quais são os deputados que gastaram mais dinheiro da CEAP? Quais são os mais econômicos? 
+1 - Quais são os deputados que gastaram mais dinheiro da CEAP? Quais são os mais econômicos? .
 
 ```{r}
+gastos = dadosCEAP %>% select(nomeParlamentar,valorLíquido)%>%
+  group_by(nomeParlamentar)%>%
+  summarise( gastosTotal = sum(valorLíquido))
 
+#gastos= gastos[order(gastos$gastosTotal),c(2,1)]
+
+maisGastos = gastos %>% top_n(10)
+#
+maisGastos$nomeParlamentar = factor(maisGastos$nomeParlamentar, levels = maisGastos$nomeParlamentar[order(maisGastos$nomeParlamentar)])
+#menosGastos = gastos %>% top_n(-10)
+#menosGastos= menosGastos[order(menosGastos$gastosTotal),c(2,1)]
+
+maisGastos %>% 
+  ggplot(aes(x=nomeParlamentar,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Deputados que mais gastaram",y="Valor",x="Nome Deputado")+
+  
+  coord_flip()
+
+
+```
+```{r}
+maisGastos = gastos %>% top_n(-10)
+#
+menosGastos$nomeParlamentar = factor(menosGastos$nomeParlamentar, levels = menosGastos$nomeParlamentar[order(menosGastos$nomeParlamentar)])
+#menosGastos = gastos %>% top_n(-10)
+#menosGastos= menosGastos[order(menosGastos$gastosTotal),c(2,1)]
+
+menosGastos %>% 
+  ggplot(aes(x=nomeParlamentar,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Deputados que menos gastaram",y="Valor",x="Nome Deputado")+
+  
+  coord_flip()
 ```
 
 
