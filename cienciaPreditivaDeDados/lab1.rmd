@@ -181,7 +181,64 @@ menosGastos %>%
 
 
 6 - Escolha três partidos e responda: Quais são os tipos de despesa mais utilizados no uso da CEAP pelos deputados desses partidos? Mesma pergunta considerando valores em R$.
-```{r}
 
+Escolhi PMDB,PSDB e PT
+
+Primeiro analisaremos o PMDB
+```{r}
+gastos6 = dadosCEAP %>% select (tipoDespesa,sgPartido,valorLíquido)%>%
+  filter(sgPartido == "PMDB") %>%
+  group_by(tipoDespesa)%>%
+  summarise(gastosTotal = sum(valorLíquido))
+
+maisGastos = gastos6 %>% top_n(6)
+maisGastos$tipoDespesa = factor(maisGastos$tipoDespesa, levels = maisGastos$tipoDespesa[order(maisGastos$tipoDespesa)])
+
+maisGastos %>% 
+  ggplot(aes(x=tipoDespesa,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Tipo de despesa mais usada pelo PMDB",y="Valor",x="Tipo Despesa ")+
+  
+  coord_flip()
+```
+
+Agora PSDB
+```{r}
+gastos6 = dadosCEAP %>% select (tipoDespesa,sgPartido,valorLíquido)%>%
+  filter(sgPartido == "PSDB") %>%
+  group_by(tipoDespesa)%>%
+  summarise(gastosTotal = sum(valorLíquido))
+
+maisGastos = gastos6 %>% top_n(6)
+maisGastos$tipoDespesa = factor(maisGastos$tipoDespesa, levels = maisGastos$tipoDespesa[order(maisGastos$tipoDespesa)])
+
+maisGastos %>% 
+  ggplot(aes(x=tipoDespesa,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Tipo de despesa mais usada pelo PMDB",y="Valor",x="Tipo Despesa ")+
+  
+  coord_flip()
+```
+
+
+Por fim o PT
+```{r}
+gastos6 = dadosCEAP %>% select (tipoDespesa,sgPartido,valorLíquido)%>%
+  filter(sgPartido == "PT") %>%
+  group_by(tipoDespesa)%>%
+  summarise(gastosTotal = sum(valorLíquido))
+
+maisGastos = gastos6 %>% top_n(6)
+maisGastos$tipoDespesa = factor(maisGastos$tipoDespesa, levels = maisGastos$tipoDespesa[order(maisGastos$tipoDespesa)])
+
+maisGastos %>% 
+  ggplot(aes(x=tipoDespesa,y = gastosTotal))+
+  theme_bw()+
+  geom_bar(stat='identity')+
+  labs(title="Tipo de despesa mais usada pelo PMDB",y="Valor",x="Tipo Despesa ")+
+  
+  coord_flip()
 ```
 
