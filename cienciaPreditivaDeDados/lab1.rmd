@@ -1,5 +1,5 @@
 ---
-title: 'An√°lise de Gastos de Deputados: Nossas Perguntas'
+title: 'An·lise de Gastos de Deputados: Nossas Perguntas'
 output: html_document
 ---
 
@@ -10,7 +10,6 @@ library(ggplot2)
 library(knitr)
 ```
 
-Algum texto legal aqui
 
 ```{r}
 dadosCEAP <- read_csv("data/dadosCEAP.csv")
