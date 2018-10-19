@@ -8,6 +8,13 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(knitr)
+library(openintro)
+library(tidyverse)
+theme_set(theme_bw())
+library(modelr)
+library(broom)
+
+#install.packages( "readr","dplyr","ggplot2","knitr", "openintro","tidyverse","modelr","broom")
 ```
 
 
@@ -84,12 +91,39 @@ eleicoes_2010 <- readr::read_csv(
 
 1 - Um modelo de regressão múltipla com todas as variáveis é plausível para explicar a variação em y (número de votos) em 2006? Mesma pergunta para 2010. 
 
+Vamos ver primeiro os dados para 2006:
+
 ```{r}
 mod <- lm(votos ~ total_receita, data = eleicoes_2006)
 # sintaxe base R:
 summary(mod)
 confint(mod)
+
+# broom, que acho mais recomendável: 
+tidy(mod, conf.int = TRUE)
+glance(mod) # depois falaremos desse
+
+eleicoes_2006 %>% 
+  add_predictions(model = mod) %>% # add o que o modelo estima p cada hs_grad
+  ggplot(mapping = aes(x = total_receita, y = votos)) + 
+  geom_point(alpha = 0.4, size = .5) + 
+  geom_line(aes(y = pred), colour = "red")  + 
+  geom_abline(intercept = 69, slope = -.65, color  = "darkblue") 
 ```
+
+
+```{r}
+eleicoes_2006 %>% 
+  add_residuals(model = mod) %>% 
+  ggplot(aes(total_receita, votos)) + 
+  geom_point(alpha = .4) + 
+  geom_hline(yintercept = 0, colour = "blue")
+```
+
+
+
+
+
 
 
 2 Compare as regressões construídas para 2006 e 2010. Quais as diferenças/semelhanças percebidas? Algumas sugestões:
