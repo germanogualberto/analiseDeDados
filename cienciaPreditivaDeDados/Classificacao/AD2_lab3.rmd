@@ -104,7 +104,7 @@ adaboostModel <- ada(formula, data = dadosTrain, type = c("discrete", "real", "g
 
 3 Reporte precision, recall e f-measure no treino e validação. Há uma grande diferença de desempenho no treino/validação? Como você avalia os resultados? Justifique sua resposta. (10 pt.)
 
-Modelo de KNN
+KNN
 ```{r}
 
 ```
@@ -114,7 +114,7 @@ Regressão Logistica
 
 ```
 
-Arvore de Decisão
+Arvore Decisão
 ```{r}
 
 ```
@@ -127,5 +127,28 @@ Adaboost
 
 
 
-
 4Interprete as saídas dos modelos. Quais atributos parecem ser mais importantes de acordo com cada modelo? (20 pts.)
+
+Modelo de KNN
+```{r}
+
+```
+
+Regressão Logistica
+```{r}
+logitModel
+
+
+
+```
+
+Arvore de Decisão
+```{r}
+decisionTreeModel
+```
+
+Adaboost
+```{r}
+adaboostModel
+```
+
