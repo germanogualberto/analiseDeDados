@@ -9,14 +9,39 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(knitr)
+library("kernlab")
 ```
 
 
 ```{r}
-dadosTest <- read_csv("data/test.csv")
 dadosTrain <- read_csv("data/train.csv")
+dadosTest <- read_csv("data/test.csv")
 dadosSample <- read_csv("data/sample_submission.csv")
 View(dadosTest)
 View(dadosTrain)
+View(dadosSample)
 
 ```
+1 Há desbalanceamento das classes (isto é, uma classe tem muito mais instâncias que outra)? Em que proporção? Quais efeitos colaterais o desbalanceamento de classes pode causar no classificador? Como você poderia tratar isso? (10 pt.)
+
+```{r}
+quant_treino=nrow(dadosTrain)
+quant_test=nrow(dadosTest)
+quant_total=quant_test+quant_treino
+
+propor_treino=quant_treino/quant_total
+propor_test=quant_test/quant_total
+proporcoes= c(propor_treino, propor_test)
+barplot(proporcoes, main="Distribuição das Proporcoes",
+        xlab="Classes",
+        names.arg=c("Classe de Treino", "Classe de Teste"))
+```
+Há sim um desbalanciamento, sendo 62.4% das instancias na classe de Treino e 37.6% das instancias na classe de Teste.
+
+
+
+2 Treine: um modelo de KNN, regressão logística, uma árvore de decisão e um modelo de adaboost. Tune esses modelos usando validação cruzada e controle overfitting se necessário, considerando as particularidades de cada modelo.  (20 pts.)
+
+3Reporte precision, recall e f-measure no treino e validação. Há uma grande diferença de desempenho no treino/validação? Como você avalia os resultados? Justifique sua resposta. (10 pt.)
+
+4Interprete as saídas dos modelos. Quais atributos parecem ser mais importantes de acordo com cada modelo? (20 pts.)
