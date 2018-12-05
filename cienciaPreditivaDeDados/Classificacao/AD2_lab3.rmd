@@ -9,7 +9,8 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(knitr)
-library("kernlab")
+library(caret)
+
 ```
 
 
@@ -25,22 +26,40 @@ View(dadosSample)
 1 Há desbalanceamento das classes (isto é, uma classe tem muito mais instâncias que outra)? Em que proporção? Quais efeitos colaterais o desbalanceamento de classes pode causar no classificador? Como você poderia tratar isso? (10 pt.)
 
 ```{r}
-quant_treino=nrow(dadosTrain)
-quant_test=nrow(dadosTest)
-quant_total=quant_test+quant_treino
+totalEleitos <- length(which(dadosTrain$situacao == "eleito"))
+totalNaoEleitos <- length(which(dadosTrain$situacao == "nao_eleito"))
+total <- totalEleitos + totalNaoEleitos
 
-propor_treino=quant_treino/quant_total
-propor_test=quant_test/quant_total
-proporcoes= c(propor_treino, propor_test)
+propEleitos = totalEleitos/total
+propNaoEleitos = totalNaoEleitos/total
+
+propEleitos
+propNaoEleitos
+
+proporcoes= c(propEleitos, propNaoEleitos)
+
 barplot(proporcoes, main="Distribuição das Proporcoes",
         xlab="Classes",
-        names.arg=c("Classe de Treino", "Classe de Teste"))
+        names.arg=c("Eleitos", "Não Eleitos"))
 ```
-Há sim um desbalanciamento, sendo 62.4% das instancias na classe de Treino e 37.6% das instancias na classe de Teste.
+Há sim um desbalanciamento, sendo 13.4% de candidatos eleitos e 86.5% de candidatos não eleitos.
+
+Grande parte dos algoritmos de classificação em Machine Learning são afetados por desbalanceamentos em classes preditoras. O principal efeito colateral causado por um desbalanceamento em um classificador é o seu enviesamento, tendo em vista que este irá inclinar-se a escolher a classe mais comum. 
 
 
 
 2 Treine: um modelo de KNN, regressão logística, uma árvore de decisão e um modelo de adaboost. Tune esses modelos usando validação cruzada e controle overfitting se necessário, considerando as particularidades de cada modelo.  (20 pts.)
+
+Regressão Logística
+```{r}
+situacao_new <- as.numeric ( dadosTrain == 'eleito'  )
+a= factor(dadosTrain$situacao)
+a3=model.matrix(~a+0)
+situacao_new <- a3[,"aeleito",drop = FALSE]
+
+modelo = glm (situacao_new ~ quantidade_doadores+quantidade_doacoes, data = dadosTrain, family = binomial)
+summary(modelo$situacao)
+```
 
 3Reporte precision, recall e f-measure no treino e validação. Há uma grande diferença de desempenho no treino/validação? Como você avalia os resultados? Justifique sua resposta. (10 pt.)
 
