@@ -5,6 +5,18 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+
+eleicoes_2006 <- read_csv("data/eleicoes_2006.csv")
+#View(eleicoes_2006)
+
+eleicoes_2010 <- read_csv("data/eleicoes_2010.csv")
+#View(eleicoes_2010)
+
+eleicoes_2006_e_2010 <- read_csv("data/eleicoes_2006_e_2010.csv")
+#View(eleicoes_2006_e_2010)
+
 ```
 
 1 - Um modelo de regressão múltipla com todas as variáveis é plausível para explicar a variação em y (número de votos) em 2006? Mesma pergunta para 2010. 
