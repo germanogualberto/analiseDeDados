@@ -10,6 +10,8 @@ library(dplyr)
 library(ggplot2)
 library(knitr)
 library(caret)
+library(rpart)
+library(ada)
 
 ```
 
@@ -46,21 +48,84 @@ Há sim um desbalanciamento, sendo 13.4% de candidatos eleitos e 86.5% de candida
 
 Grande parte dos algoritmos de classificação em Machine Learning são afetados por desbalanceamentos em classes preditoras. O principal efeito colateral causado por um desbalanceamento em um classificador é o seu enviesamento, tendo em vista que este irá inclinar-se a escolher a classe mais comum. 
 
+Tratamento dos dados:
+
+```{r}
+c1 = cor(dadosTrain$total_despesa, dadosTrain$quantidade_despesas)
+c2 = cor(dadosTrain$quantidade_despesas, dadosTrain$media_despesa)
+c3 = cor(dadosTrain$quantidade_doacoes, dadosTrain$quantidade_doadores)
+c4 = cor(dadosTrain$quantidade_despesas, dadosTrain$quantidade_fornecedores)
+c5 = cor(dadosTrain$total_despesa, dadosTrain$total_receita)
+c1
+c2
+c3
+c4
+c5
+```
+Como existe grande correlação entre algumas variáveis, o que pode levar a redudância, podemos desconsiderá-las no modelo.
+
+```{r}
+formula <- as.formula(situacao ~ uf + partido + quantidade_doacoes + total_despesa + sexo + grau )
+```
+
 
 
 2 Treine: um modelo de KNN, regressão logística, uma árvore de decisão e um modelo de adaboost. Tune esses modelos usando validação cruzada e controle overfitting se necessário, considerando as particularidades de cada modelo.  (20 pts.)
 
-Regressão Logística
+Modelo de KNN
 ```{r}
-situacao_new <- as.numeric ( dadosTrain == 'eleito'  )
-a= factor(dadosTrain$situacao)
-a3=model.matrix(~a+0)
-situacao_new <- a3[,"aeleito",drop = FALSE]
 
-modelo = glm (situacao_new ~ quantidade_doadores+quantidade_doacoes, data = dadosTrain, family = binomial)
-summary(modelo$situacao)
 ```
 
-3Reporte precision, recall e f-measure no treino e validação. Há uma grande diferença de desempenho no treino/validação? Como você avalia os resultados? Justifique sua resposta. (10 pt.)
+
+Regressão Logística
+```{r}
+ctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3, sampling = "up")
+logitModel <- caret::train(formula, data=dadosTrain, method="glm", family="binomial",
+                 trControl = ctrl, tuneLength = 10)
+```
+Arvore de decisão
+
+```{r}
+ctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3, sampling = "up")
+set.seed(3333)
+decisionTreeModel <- train(formula, data=dadosTrain, method = "rpart",
+                   parms = list(split = "information"),
+                   trControl=ctrl,
+                   tuneLength = 10)
+```
+
+Adaboost
+```{r}
+control <- rpart.control(cp = -1, maxdepth = 14, maxcompete = 1, xval = 0)
+adaboostModel <- ada(formula, data = dadosTrain, type = c("discrete", "real", "gentle"), control = control, iter = 70)
+```
+
+
+3 Reporte precision, recall e f-measure no treino e validação. Há uma grande diferença de desempenho no treino/validação? Como você avalia os resultados? Justifique sua resposta. (10 pt.)
+
+Modelo de KNN
+```{r}
+
+```
+
+Regressão Logistica
+```{r}
+
+```
+
+Arvore de Decisão
+```{r}
+
+```
+
+Adaboost
+```{r}
+
+```
+
+
+
+
 
 4Interprete as saídas dos modelos. Quais atributos parecem ser mais importantes de acordo com cada modelo? (20 pts.)
