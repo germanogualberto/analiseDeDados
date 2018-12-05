@@ -1,0 +1,22 @@
+---
+title: "AD2-Lab3-"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+```
+
+
+```{r}
+dadosTest <- read_csv("data/test.csv")
+dadosTrain <- read_csv("data/train.csv")
+dadosSample <- read_csv("data/sample_submission.csv")
+View(dadosTest)
+View(dadosTrain)
+
+```
