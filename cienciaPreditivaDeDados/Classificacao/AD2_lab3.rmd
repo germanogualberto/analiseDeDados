@@ -12,6 +12,7 @@ library(knitr)
 library(caret)
 library(rpart)
 library(ada)
+library(maxent)
 
 ```
 
@@ -111,12 +112,26 @@ KNN
 
 Regressão Logistica
 ```{r}
+pred = predict(logitModel, newdata=dadosTrain)
+#confMatrix <- confusionMatrix(data=pred, dadosTrain$situacao)
 
+#acc  <- confMatrix$overall['Accuracy']
+#rec  <- recall(confMatrix$table, relevant = "eleito")
+#pre  <- precision(confMatrix$table, relevant = "eleito")
+#fmes <- F_meas(confMatrix$table, relevant = "eleito")
 ```
 
 Arvore Decisão
 ```{r}
+pred = predict(decisionTreeModel, newdata=dadosTrain)
+#confMatrix <- confusionMatrix(data=pred, pred)
 
+#acc  <- confMatrix$overall['Accuracy']
+#rec  <- recall(confMatrix$table, relevant = "eleito")
+#pre  <- precision(confMatrix$table, relevant = "eleito")
+#fmes <- F_meas(confMatrix$table, relevant = "eleito")
+
+#print (confMatrix)
 ```
 
 Adaboost
@@ -137,7 +152,8 @@ Modelo de KNN
 Regressão Logistica
 ```{r}
 logitModel
-
+#save.model(logitModel, "logitModel")
+write.csv(c(logitModel$coefficients), file="result.csv") 
 
 
 ```
